@@ -51,7 +51,7 @@ class CinemaHall {
             this.availableSeats -= numSeats;
             this.bookedSeats.push(numSeats);
             const ticket = new Ticket(this.movie, this, numSeats);
-            console.log(`${numSeats} seats booked succsessfully: Ticket number: ${ticket.ticketNumber}`)
+            console.log(`${numSeats} seats booked succsessfully: Ticket number  : ${ticket.ticketNumber}`)
             return ticket;
         } else {
             console.log(`Not enough seats available`);
@@ -70,14 +70,36 @@ class BookingSystem {
     }
 
     addMovie(title, duration) {
-        const monie = new Movie(title, duration);
+        const movie = new Movie(title, duration);
         this.movies.push(movie);
     }
 
-    addCinemaHals(hallNumber, capacity){
-        const hall = new CinemaHalls(hallNumber, capacity);
+    addCinemaHals(hallNumber, capacity) {
+        const hall = new CinemaHall(hallNumber, capacity);
         this.cinemaHalls.push(hall);
+    }
+
+    displayMovies() {
+        console.log(`Available movies`);
+        this.movies.forEach(movie => console.log(`${movie.title} - ${movie.duration} minutes`));
+    }
+    displayTicketInfo(ticket) {
+        console.log(`Ticket number: ${ticket.ticketNimber}`);
+        console.log(`Movie: ${ticket.movie.title}`);
+        console.log(`Cinema hall: ${ticket.cinemaHall.hallNumber}`);
+        console.log(`Number of seats: ${ticket.numSeats}`);
+        console.log(`Ticket cost: ${ticket.ticketCost}`);
     }
 }
 
 
+const bookingSystem = new BookingSystem();
+bookingSystem.addMovie(`Довбуш`, 180);
+bookingSystem.addCinemaHals(1, 100);
+bookingSystem.cinemaHalls[0].setMovie(bookingSystem.movies[0]);
+bookingSystem.displayMovies();
+const ticket1 = bookingSystem.cinemaHalls[0].bookSeat(5);
+const ticket2 = bookingSystem.cinemaHalls[0].bookSeat(3);
+bookingSystem.displayTicketInfo(ticket1)
+
+bookingSystem.cinemaHalls[0].showBookedSeats();
